@@ -1,18 +1,43 @@
 import Jugador
 import random as rnd
+import numpy as np
 
 '''
-Es binario el tema: playerA ataca a playerB
-arma: cuchillo, pistola, porra, mano...
-Tener en cuenta:
-    la probabilidad de acertar
-        la const + suerte del atacante - const - suerte del atacado
-        (debe de haber un modificador)
-    la cantidad de daño en caso de acertar
-        tipo de arma - armadura
+1D20=>1 tirada de un dado de 20 caras
 '''
 
-def atacar(playerA, playerB, arma='mano'):
-        prob=rnd.uniform(0,1.0)*playerA.atributos['suerte']/10
 
-    return round(prob,4)
+def ProbAtacar(playerA, playerB, Tiradas=1, Dado=20, Acierto=20):
+    Delta_=0
+    
+    if Tiradas>1:
+        for i in range(Tiradas):
+            P_=+rnd.randint(1, Dado) 
+    else:
+        P_=rnd.randint(1, Dado)
+    
+    '''
+    Este Delta nos dice que tan lejos de fallar o acertar está 
+    la tirada del dado
+    '''
+    Delta_= P_ - Acierto
+                
+    return Delta_
+
+def ProbDefender(playerA, playerB, Tiradas=1, Dado=20, Acierto=20):
+    Delta_=0
+    
+    if Tiradas>1:
+        for i in range(Tiradas):
+            P_=+rnd.randint(1, Dado) 
+    else:
+        P_=rnd.randint(1, Dado)
+    
+    '''
+    Este Delta nos dice que tan lejos de fallar o acertar está 
+    la tirada del dado
+    '''
+    Delta_= P_ - Acierto
+                
+    return Delta_
+
