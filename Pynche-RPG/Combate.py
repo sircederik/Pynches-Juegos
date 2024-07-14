@@ -7,8 +7,9 @@ import numpy as np
 '''
 
 
-def ProbAtacar(playerA, playerB, Tiradas=1, Dado=20, Acierto=20):
+def ProbAtacar(playerA:Jugador, playerB:Jugador, Tiradas=1, Dado=20, Acierto=20):
     Delta_=0
+    Suerte_=playerA.atributos['suerte']
     
     if Tiradas>1:
         for i in range(Tiradas):
@@ -20,7 +21,8 @@ def ProbAtacar(playerA, playerB, Tiradas=1, Dado=20, Acierto=20):
     Este Delta nos dice que tan lejos de fallar o acertar está 
     la tirada del dado
     '''
-    Delta_= P_ - Acierto
+    
+    Delta_= ( P_ + ( Suerte_ / 5) ) - Acierto
                 
     return Delta_
 
@@ -37,7 +39,7 @@ def ProbDefender(playerA, playerB, Tiradas=1, Dado=20, Acierto=20):
     Este Delta nos dice que tan lejos de fallar o acertar está 
     la tirada del dado
     '''
-    Delta_= P_ - Acierto
+    Delta_= ( P_  ) - Acierto
                 
     return Delta_
 
