@@ -1,0 +1,41 @@
+ID,Casilla,Tipo,Visitas,Probabilidad (%)
+10,Cárcel / Solo Visitas,especial,10,5.05050505050505
+0,Salida,especial,9,4.545454545454546
+14,Avenida Virginia,propiedad,9,4.545454545454546
+27,Avenida Ventnor,propiedad,9,4.545454545454546
+18,Avenida Tennessee,propiedad,8,4.040404040404041
+5,Ferrocarril Reading,estacion,7,3.535353535353535
+22,Suerte 2,suerte,7,3.535353535353535
+21,Avenida Kentucky,propiedad,7,3.535353535353535
+32,Avenida Carolina del Norte,propiedad,7,3.535353535353535
+34,Avenida Pensilvania,propiedad,7,3.535353535353535
+28,Obras de Agua Potable,servicio,7,3.535353535353535
+13,Avenida Estados,propiedad,7,3.535353535353535
+9,Avenida Connecticut,propiedad,6,3.0303030303030303
+8,Avenida Vermont,propiedad,6,3.0303030303030303
+11,Plaza San Carlos,propiedad,6,3.0303030303030303
+17,Arca Comunal 2,arca,5,2.525252525252525
+26,Avenida Atlántico,propiedad,5,2.525252525252525
+30,Váyase a la Cárcel,especial,5,2.525252525252525
+20,Parada Libre,especial,5,2.525252525252525
+39,Paseo Tablado,propiedad,4,2.0202020202020203
+1,Avenida Mediterráneo,propiedad,4,2.0202020202020203
+4,Impuesto sobre Ingresos,impuesto,4,2.0202020202020203
+23,Avenida Indiana,propiedad,4,2.0202020202020203
+15,Ferrocarril de Pensilvania,estacion,4,2.0202020202020203
+37,Plaza Parque,propiedad,4,2.0202020202020203
+38,Impuesto de Lujo,impuesto,4,2.0202020202020203
+24,Avenida Illinois,propiedad,4,2.0202020202020203
+33,Arca Comunal 3,arca,4,2.0202020202020203
+12,Compañía de Electricidad,servicio,4,2.0202020202020203
+7,Suerte 1,suerte,3,1.5151515151515151
+2,Arca Comunal 1,arca,3,1.5151515151515151
+3,Avenida Báltica,propiedad,3,1.5151515151515151
+35,Ferrocarril Short Line,estacion,3,1.5151515151515151
+19,Avenida Nueva York,propiedad,3,1.5151515151515151
+31,Avenida Pacífico,propiedad,3,1.5151515151515151
+6,Avenida Oriental,propiedad,2,1.0101010101010102
+16,Plaza Santiago,propiedad,2,1.0101010101010102
+29,Jardines Marvin,propiedad,2,1.0101010101010102
+25,Ferrocarril B. & O.,estacion,1,0.5050505050505051
+36,Suerte 3,suerte,1,0.5050505050505051

@@ -1,0 +1,38 @@
+{
+  "suerte": [
+    {"nombre": "Avanza hasta la Salida", "accion": "mover_a", "destino": 0},
+    {"nombre": "Avanza hasta la Avenida Illinois", "accion": "mover_a", "destino": 24},
+    {"nombre": "Avanza hasta San Carlos Place", "accion": "mover_a", "destino": 11},
+    {"nombre": "Avanza hasta el Ferrocarril más próximo", "accion": "mover_a_tipo", "tipo": "ferrocarril"},
+    {"nombre": "Avanza hasta el Ferrocarril más próximo", "accion": "mover_a_tipo", "tipo": "ferrocarril"},
+    {"nombre": "Avanza hasta la Empresa de Servicios más próxima", "accion": "mover_a_tipo", "tipo": "servicio"},
+    {"nombre": "El banco te paga un dividendo de $50", "accion": "cobrar", "valor": 50},
+    {"nombre": "Vuelve atrás tres espacios", "accion": "mover_relativo", "valor": -3},
+    {"nombre": "Vaya directamente a la Cárcel", "accion": "ir_a_carcel"},
+    {"nombre": "Haz reparaciones generales en tus propiedades ($25/casa, $100/hotel)", "accion": "impuesto_propiedades", "valor_casa": 25, "valor_hotel": 100},
+    {"nombre": "Paga una multa de $15", "accion": "pagar", "valor": 15},
+    {"nombre": "Ve a Reading Railroad", "accion": "mover_a", "destino": 5},
+    {"nombre": "Ve a Paseo Tablado (Boardwalk)", "accion": "mover_a", "destino": 39},
+    {"nombre": "Has sido elegido Presidente de la Junta ($50 a cada jugador)", "accion": "pagar_a_todos", "valor": 50},
+    {"nombre": "Tu préstamo hipotecario vence, cobra $150", "accion": "cobrar", "valor": 150},
+    {"nombre": "Has ganado un concurso de crucigramas, cobra $100", "accion": "cobrar", "valor": 100}
+  ],
+  "arca": [
+    {"nombre": "Avanza hasta la Salida", "accion": "mover_a", "destino": 0},
+    {"nombre": "Error de la banca a tu favor, cobra $200", "accion": "cobrar", "valor": 200},
+    {"nombre": "Gastos médicos, paga $50", "accion": "pagar", "valor": 50},
+    {"nombre": "Venta de acciones, cobras $50", "accion": "cobrar", "valor": 50},
+    {"nombre": "Vaya directamente a la Cárcel", "accion": "ir_a_carcel"},
+    {"nombre": "Gran apertura de la ópera, cobra $50 de cada jugador", "accion": "cobrar_de_todos", "valor": 50},
+    {"nombre": "Devolución de impuestos, cobra $20,00", "accion": "cobrar", "valor": 20},
+    {"nombre": "Es tu cumpleaños, cobra $10 de cada jugador", "accion": "cobrar_de_todos", "valor": 10},
+    {"nombre": "Seguro de vida vence, cobra $100", "accion": "cobrar", "valor": 100},
+    {"nombre": "Gastos de hospital, paga $100", "accion": "pagar", "valor": 100},
+    {"nombre": "Gastos escolares, paga $150", "accion": "pagar", "valor": 150},
+    {"nombre": "Recibes $25 por servicios de consultoría", "accion": "cobrar", "valor": 25},
+    {"nombre": "Reparaciones en la calle ($40/casa, $115/hotel)", "accion": "impuesto_propiedades", "valor_casa": 40, "valor_hotel": 115},
+    {"nombre": "Has ganado el segundo premio en un concurso de belleza, cobra $10", "accion": "cobrar", "valor": 10},
+    {"nombre": "Heredas $100", "accion": "cobrar", "valor": 100},
+    {"nombre": "Venta de servicios, cobras $100", "accion": "cobrar", "valor": 100}
+  ]
+}
