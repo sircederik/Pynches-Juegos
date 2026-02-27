@@ -1,5 +1,5 @@
 class Jugador:
-    def __init__(self, id_jugador, nombre, estrategia="estandar"):
+    def __init__(self, id_jugador, nombre, dinero_inicial=1500, estrategia="estandar"):
         self.id = id_jugador
         self.nombre = nombre
         self.estrategia = estrategia
@@ -11,7 +11,7 @@ class Jugador:
         self.dobles_consecutivos = 0
 
         # Estado financiero
-        self.dinero = 1500
+        self.dinero = dinero_inicial
         self.propiedades = [] # Lista de objetos de la clase Propiedad
         self.esta_quebrado = False
 
@@ -68,19 +68,21 @@ class Jugador:
                 self.mover_a((self.posicion + suma_dados) % 40)
             # Si no, se queda en la casilla 10 un turno más
 
-    def pagar(self, cantidad, receptor=None):
+
+    def pagar(self, monto, destinatario=None):
         """
-        Resta dinero al jugador. Si hay un receptor, se le suma a él.
+        Resta monto al jugador. Si se pasa un destinatario, se le suma el monto.
         """
-        self.dinero -= cantidad
+        if self.dinero >= monto:
+            self.dinero -= monto
+            if destinatario is not None:
+                destinatario.dinero += monto
+            return True
+        else:
+            # Lógica de quiebra: entrega lo que le queda al destinatario
+            if destinatario is not None:
+                destinatario.dinero += self.dinero
 
-        if receptor:
-            receptor.dinero += cantidad
-
-        # Registro para el historial financiero
-        self.historial_dinero.append(self.dinero)
-
-        # Verificación de bancarrota
-        if self.dinero < 0:
+            self.dinero = 0
             self.esta_quebrado = True
-            # print(f"¡{self.nombre} se ha declarado en bancarrota!")
+            return False

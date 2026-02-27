@@ -54,10 +54,45 @@ class MonopolyEngine:
                 casilla = self.tablero[jugador.posicion]["nombre"]
                 self._log(f"[INFO] {jugador.nombre} aterrizó en {casilla}", 2)
 
+
+    def _procesar_propiedad(self, jugador, casilla):
+        dueno = casilla.get("dueno")
+
+            # 2. Si no hay dueño (es None), el jugador puede comprar
+        if dueno is None:
+            precio = casilla.get("precio", 0)
+            if jugador.dinero >= precio:
+                jugador.pagar(precio)
+                # IMPORTANTE: Guardamos al objeto jugador como dueño en el diccionario
+                casilla["dueno"] = jugador
+
+                # También lo registramos en el inventario del jugador si tienes esa lista
+                if hasattr(jugador, 'propiedades'):
+                    jugador.propiedades.append(casilla["nombre"])
+
+                self._log(f"[ECONOMÍA] {jugador.nombre} compró {casilla['nombre']} por ${precio}", 2)
+
+        # 3. Si hay dueño y NO es el jugador actual, se paga renta
+        elif dueno != jugador and not dueno.esta_quebrado:
+            # Obtenemos la renta (usamos 0 por defecto si no está definida)
+            renta = casilla.get("renta", 0)
+
+            self._log(f"[PAGO] {jugador.nombre} paga ${renta} a {dueno.nombre} por {casilla['nombre']}", 2)
+
+            # Realizamos la transferencia de dinero
+            jugador.pagar(renta, destinatario=dueno)
+
+
+
     def _procesar_casilla(self, jugador):
         """Identifica el tipo de casilla y aplica la regla correspondiente."""
         casilla = self.tablero[jugador.posicion]
         tipo = casilla["tipo"]
+
+        # 2. Despachar según el tipo de casilla
+        if tipo in ["calle", "ferrocarril", "servicio"]:
+            # AQUÍ es donde llamas a la lógica económica
+            self._procesar_propiedad(jugador, casilla)
 
         if tipo == "suerte":
             self._ejecutar_carta(jugador, self.mazo_suerte)
