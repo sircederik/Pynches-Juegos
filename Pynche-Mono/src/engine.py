@@ -26,11 +26,16 @@ class MonopolyEngine:
             print(mensaje)
 
     def ejecutar_partida(self, max_turnos=1000):
-        """Bucle principal de la simulación."""
-        for _ in range(max_turnos):
-            for jugador in self.jugadores:
-                if not jugador.esta_quebrado:
-                    self.jugar_turno(jugador)
+        for t in range(max_turnos):
+            jugadores_activos = [j for j in self.jugadores if not j.esta_quebrado]
+
+        # Si solo queda uno (o ninguno), la partida termina
+            if len(jugadores_activos) <= 1:
+                self._log(f"\n[!] Simulación terminada en turno {t}: Solo queda un superviviente.", 1)
+                break
+
+            for jugador in jugadores_activos:
+                self.jugar_turno(jugador)
 
     def jugar_turno(self, jugador):
         """Lógica de un turno individual."""

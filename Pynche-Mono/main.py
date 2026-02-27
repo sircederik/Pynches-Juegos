@@ -38,7 +38,7 @@ def cargar_configuracion():
 def ejecutar_simulacion(config):
     s_params = config['simulation_params']
     r_params = config['rules_configuration']
-    
+
     # Extraer verbosidad (por defecto 1 si no existe)
     v_level = config['output_params'].get('verbosity', 1)
 
@@ -64,7 +64,16 @@ def ejecutar_simulacion(config):
         for i in range(40):
             visitas[i] += j.contador_visitas[i]
 
-    return visitas
+    return visitas, jugadores
+
+def reporte_supervivencia(jugadores):
+    print("\n" + "="*40)
+    print("ESTADO FINAL DE LOS AVENTUREROS")
+    print("="*40)
+    for j in jugadores:
+        estado = "QUEBRADO 💀" if j.esta_quebrado else "ACTIVO 💰"
+        print(f"{j.nombre:<10} | {estado} | Balance: ${j.dinero}")
+    print("="*40)
 
 def guardar_reporte(visitas, config):
     o_params = config['output_params']
@@ -90,7 +99,8 @@ def guardar_reporte(visitas, config):
 if __name__ == "__main__":
     try:
         cfg = cargar_configuracion()
-        res = ejecutar_simulacion(cfg)
+        res, jugadores = ejecutar_simulacion(cfg)
+        reporte_supervivencia(jugadores)
         guardar_reporte(res, cfg)
     except Exception as e:
         print(f"\n[ERROR] Hubo un problema: {e}")
