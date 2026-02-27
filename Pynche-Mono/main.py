@@ -14,7 +14,8 @@ def cargar_configuracion():
     parser.add_argument("-c", "--config", default="default", help="Nombre del archivo en configs/ (sin .yaml)")
     parser.add_argument("-t", "--turnos", type=int, help="Sobrescribir cantidad de turnos")
     parser.add_argument("-s", "--seed", type=int, help="Sobrescribir semilla")
-
+    parser.add_argument("-v", "--verbosity", type=int, choices=[0, 1, 2, 3], 
+                        help="Nivel de verbosidad (0: Silent, 1: Normal, 2: Detailed, 3: Debug)")
     args = parser.parse_args()
 
     # Construir ruta: si el usuario pone 'oficial', buscamos 'configs/oficial.yaml'
@@ -30,12 +31,16 @@ def cargar_configuracion():
     # Inyección de parámetros desde CLI (Línea de comandos)
     if args.turnos: config['simulation_params']['turnos'] = args.turnos
     if args.seed: config['simulation_params']['semilla'] = args.seed
-
+    if args.verbosity is not None: # El 0 es evaluado como False, por eso usamos 'is not None'
+        config['output_params']['verbosity'] = args.verbosity
     return config
 
 def ejecutar_simulacion(config):
     s_params = config['simulation_params']
     r_params = config['rules_configuration']
+    
+    # Extraer verbosidad (por defecto 1 si no existe)
+    v_level = config['output_params'].get('verbosity', 1)
 
     print(f"\n>>> Lanzando Experimento: {config['experiment_name']}")
 
@@ -50,7 +55,7 @@ def ejecutar_simulacion(config):
         j.dinero = r_params.get('dinero_inicial', 1500)
 
     # Ejecutar Motor
-    engine = MonopolyEngine(jugadores, tablero, m_suerte, m_arca, dados)
+    engine = MonopolyEngine(jugadores, tablero, m_suerte, m_arca, dados, verbosity=v_level)
     engine.ejecutar_partida(max_turnos=s_params['turnos'])
 
     # Consolidar resultados

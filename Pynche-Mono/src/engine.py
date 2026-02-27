@@ -1,11 +1,11 @@
-
 class MonopolyEngine:
-    def __init__(self, jugadores, tablero, mazo_suerte, mazo_arca, dados):
+    def __init__(self, jugadores, tablero, mazo_suerte, mazo_arca, dados, verbosity=1):
         self.jugadores = jugadores
         self.tablero = tablero
         self.mazo_suerte = mazo_suerte
         self.mazo_arca = mazo_arca
         self.dados = dados
+        self.verbosity = verbosity
 
         # Mapeo de acciones del JSON a métodos internos
         self.despachador_cartas = {
@@ -20,6 +20,11 @@ class MonopolyEngine:
             "impuesto_propiedades": self._accion_impuesto_propiedades
         }
 
+    def _log(self, mensaje, nivel_requerido):
+        """Método auxiliar para centralizar los prints según verbosidad."""
+        if self.verbosity >= nivel_requerido:
+            print(mensaje)
+
     def ejecutar_partida(self, max_turnos=1000):
         """Bucle principal de la simulación."""
         for _ in range(max_turnos):
@@ -32,12 +37,17 @@ class MonopolyEngine:
         # 1. Tirar dados
         suma, es_doble = self.dados.tirar()
 
-        # 2. El jugador procesa su estado (cárcel, posición, contador de visitas)
+        self._log(f"[DEBUG] {jugador.nombre} lanza {suma}", 3)
+
+       # 2. El jugador procesa su estado (cárcel, posición, contador de visitas)
         jugador.lanzar_dados(suma, es_doble)
 
         # 3. Si no terminó en la cárcel por los dados, procesar la casilla de aterrizaje
         if not jugador.en_carcel:
             self._procesar_casilla(jugador)
+            if self.verbosity >= 2:
+                casilla = self.tablero[jugador.posicion]["nombre"]
+                self._log(f"[INFO] {jugador.nombre} aterrizó en {casilla}", 2)
 
     def _procesar_casilla(self, jugador):
         """Identifica el tipo de casilla y aplica la regla correspondiente."""
@@ -56,6 +66,11 @@ class MonopolyEngine:
     def _ejecutar_carta(self, jugador, mazo):
         """Saca una carta del mazo y busca su función en el despachador."""
         carta = mazo.sacar_carta()
+
+        if self.verbosity >= 2:
+            tipo = "SUERTE" if mazo == self.mazo_suerte else "ARCA"
+            print(f"[CARTA] {jugador.nombre} sacó de {tipo}: {carta['nombre']}")
+
         accion = carta.get("accion")
 
         if accion in self.despachador_cartas:

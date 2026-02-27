@@ -15,3 +15,4 @@ rules_configuration:
 output_params:
   output_dir: "data/resultados"
   verbose_summary: true
+  verbosity: 3
