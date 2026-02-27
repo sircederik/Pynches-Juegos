@@ -43,7 +43,7 @@ def generar_tablero():
         {"nombre": "Suerte 3", "tipo": "suerte"},
         {"nombre": "Plaza Parque", "tipo": "propiedad", "grupo": "azul", "precio": 350, "renta": 35},
         {"nombre": "Impuesto de Lujo", "tipo": "impuesto", "costo": 100},
-        {"nombre": "Paseo Tablado", "tipo": "propiedad", "grupo": "azul", "precio": 400, "renta": 50}
+        {"nombre": "Muelle", "tipo": "propiedad", "grupo": "azul", "precio": 400, "renta": 50}
     ]
     return tablero
 

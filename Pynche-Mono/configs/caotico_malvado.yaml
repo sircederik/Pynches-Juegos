@@ -1,0 +1,17 @@
+# Alineación: CAÓTICO-MALVADO (Chaos-Evil)
+# El objetivo es la máxima entropía y el castigo constante.
+experiment_name: "experimento_dnd_ce"
+
+simulation_params:
+  turnos: 100000
+  semilla: 666
+  num_jugadores: 8
+
+rules_configuration:
+  set_cartas: "caotico_malvado" # Cartas de castigo y saltos erráticos
+  dinero_inicial: 50
+  cobro_salida: 0               # Se elimina el incentivo de pasar por salida
+
+output_params:
+  output_dir: "data/resultados"
+  verbose_summary: true

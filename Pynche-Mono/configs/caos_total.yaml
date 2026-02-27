@@ -1,0 +1,18 @@
+# ==========================================================
+# Pynche-Mono: Escenario de Caos Total
+# ==========================================================
+experiment_name: "experimento_caos_extremo"
+
+simulation_params:
+  turnos: 500          # Menos turnos porque el caos es intenso
+  semilla: 666            # Una semilla distinta para variar el mazo
+  num_jugadores: 8        # Máximo de jugadores para saturar el tablero
+
+rules_configuration:
+  set_cartas: "caos"      # BUSCARÁ data/card_sets/caos.json
+  dinero_inicial: 100     # Escasez total
+  cobro_salida: 50        # Salida devaluada
+
+output_params:
+  output_dir: "data/resultados"
+  verbose_summary: true   # Queremos ver el desastre en consola

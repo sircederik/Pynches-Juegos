@@ -1,0 +1,11 @@
+{
+  "suerte": [
+    {"nombre": "Bendición del Paladín", "accion": "cobrar", "valor": 500},
+    {"nombre": "Ruta Comercial Segura", "accion": "mover_a", "destino": 0},
+    {"nombre": "Viaje Diplomático", "accion": "mover_a_tipo", "tipo": "ferrocarril"}
+  ],
+  "arca": [
+    {"nombre": "Diezmo Justo", "accion": "cobrar", "valor": 100},
+    {"nombre": "Recompensa del Rey", "accion": "cobrar_de_todos", "valor": 50}
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "suerte": [
+    {"nombre": "Tornado Espacial", "accion": "mover_a", "destino": 20},
+    {"nombre": "Crisis Penitenciaria", "accion": "ir_a_carcel"},
+    {"nombre": "Crisis Penitenciaria", "accion": "ir_a_carcel"},
+    {"nombre": "Retroceso Infinito", "accion": "mover_relativo", "valor": -10},
+    {"nombre": "A la Salida (sin cobrar)", "accion": "mover_a", "destino": 0},
+    {"nombre": "Impuesto a la Vida", "accion": "pagar", "valor": 500}
+  ],
+  "arca": [
+    {"nombre": "Motín", "accion": "ir_a_carcel"},
+    {"nombre": "Donación Forzada", "accion": "pagar_a_todos", "valor": 100},
+    {"nombre": "Error del Destino", "accion": "mover_a_tipo", "tipo": "servicio"},
+    {"nombre": "Salto al Vacío", "accion": "mover_a", "destino": 39}
+  ]
+}

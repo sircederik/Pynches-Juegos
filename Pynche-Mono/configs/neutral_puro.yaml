@@ -1,0 +1,17 @@
+# Alineación: NEUTRAL-AUTÉNTICO (True Neutral)
+# El equilibrio perfecto de las reglas clásicas.
+experiment_name: "experimento_dnd_tn"
+
+simulation_params:
+  turnos: 1000 # Aquí es donde corres tus 100M de turnos
+  semilla: 2026
+  num_jugadores: 4
+
+rules_configuration:
+  set_cartas: "oficial" # El JSON oficial que generamos antes
+  dinero_inicial: 1500
+  cobro_salida: 200
+
+output_params:
+  output_dir: "data/resultados"
+  verbose_summary: true

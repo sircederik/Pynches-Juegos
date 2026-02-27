@@ -1,0 +1,15 @@
+# Configuración base para Pynche-Mono
+experiment_name: "base_oficial_100"
+
+simulation_params:
+  turnos: 100
+  semilla: 2026
+  num_jugadores: 4
+
+rules_configuration:
+  set_cartas: "oficial"  # Debe existir data/card_sets/oficial.json
+  dinero_inicial: 1500
+
+output_params:
+  output_dir: "data/resultados"
+  verbose_summary: true

@@ -1,0 +1,12 @@
+{
+  "suerte": [
+    {"nombre": "Abismo del Tártaro", "accion": "ir_a_carcel"},
+    {"nombre": "Abismo del Tártaro", "accion": "ir_a_carcel"},
+    {"nombre": "Teletransporte Fallido", "accion": "mover_relativo", "valor": -15},
+    {"nombre": "Impuesto del Tirano", "accion": "pagar", "valor": 1000}
+  ],
+  "arca": [
+    {"nombre": "Traición del Gremio", "accion": "pagar_a_todos", "valor": 500},
+    {"nombre": "Cárcel de Almas", "accion": "ir_a_carcel"}
+  ]
+}

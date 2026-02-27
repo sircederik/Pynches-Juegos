@@ -1,4 +1,6 @@
 import os
+import yaml
+import argparse
 import pandas as pd
 from src.models.jugador import Jugador
 from src.logic.dados import Dados
@@ -6,90 +8,84 @@ from src.logic.tablero import generar_tablero
 from src.logic.cartas import cargar_paquete_de_cartas # La nueva función
 from src.engine import MonopolyEngine
 
-import os
-import pandas as pd
-from src.models.jugador import Jugador
-from src.logic.dados import Dados
-from src.logic.tablero import generar_tablero
-from src.logic.cartas import cargar_paquete_de_cartas
-from src.engine import MonopolyEngine
+def cargar_configuracion():
+    """Busca el archivo YAML en la carpeta configs/ y permite sobrescritura."""
+    parser = argparse.ArgumentParser(description="Pynche-Mono Steering System")
+    parser.add_argument("-c", "--config", default="default", help="Nombre del archivo en configs/ (sin .yaml)")
+    parser.add_argument("-t", "--turnos", type=int, help="Sobrescribir cantidad de turnos")
+    parser.add_argument("-s", "--seed", type=int, help="Sobrescribir semilla")
 
-def ejecutar_experimento(num_turnos=100000, semilla=2026, set_cartas="oficial"):
-    """
-    Orquestador principal: Configura, simula y consolida datos.
-    """
-    print(f"--- Configurando Experimento (Semilla: {semilla}, Set: {set_cartas}) ---")
+    args = parser.parse_args()
 
-    # 1. Inicializar componentes de azar y reglas
-    dados = Dados(semilla=semilla)
+    # Construir ruta: si el usuario pone 'oficial', buscamos 'configs/oficial.yaml'
+    nombre_archivo = args.config if args.config.endswith(".yaml") else f"{args.config}.yaml"
+    ruta_config = os.path.join("configs", nombre_archivo)
+
+    if not os.path.exists(ruta_config):
+        raise FileNotFoundError(f"No se encontró el archivo: {ruta_config}")
+
+    with open(ruta_config, 'r', encoding='utf-8') as f:
+        config = yaml.safe_load(f)
+
+    # Inyección de parámetros desde CLI (Línea de comandos)
+    if args.turnos: config['simulation_params']['turnos'] = args.turnos
+    if args.seed: config['simulation_params']['semilla'] = args.seed
+
+    return config
+
+def ejecutar_simulacion(config):
+    s_params = config['simulation_params']
+    r_params = config['rules_configuration']
+
+    print(f"\n>>> Lanzando Experimento: {config['experiment_name']}")
+
+    # Iniciar componentes con los datos del Steering File
+    dados = Dados(semilla=s_params['semilla'])
     tablero = generar_tablero()
-    # Cargamos los mazos desde el JSON usando el generador de los dados
-    m_suerte, m_arca = cargar_paquete_de_cartas(set_cartas, dados.rng)
+    m_suerte, m_arca = cargar_paquete_de_cartas(r_params['set_cartas'], dados.rng)
 
-    # 2. Configurar sujetos de prueba
-    # Usamos 4 jugadores para una dinámica de mazo más realista
-    jugadores = [Jugador(i, f"Agente_{i}") for i in range(1, 5)]
+    # Configurar jugadores
+    jugadores = [Jugador(i, f"J_{i}") for i in range(1, s_params['num_jugadores'] + 1)]
+    for j in jugadores:
+        j.dinero = r_params.get('dinero_inicial', 1500)
 
-    # 3. Lanzar el motor
+    # Ejecutar Motor
     engine = MonopolyEngine(jugadores, tablero, m_suerte, m_arca, dados)
+    engine.ejecutar_partida(max_turnos=s_params['turnos'])
 
-    print(f"Simulando {num_turnos} turnos...")
-    engine.ejecutar_partida(max_turnos=num_turnos)
-
-    # 4. Consolidar visitas de todos los jugadores
-    visitas_totales = [0] * 40
+    # Consolidar resultados
+    visitas = [0] * 40
     for j in jugadores:
         for i in range(40):
-            visitas_totales[i] += j.contador_visitas[i]
+            visitas[i] += j.contador_visitas[i]
 
-    return visitas_totales
+    return visitas
 
-def exportar_y_analizar(visitas, nombre_set):
-    """
-    Procesa los resultados, los guarda en CSV y muestra el análisis en consola.
-    """
-    if not os.path.exists("data"):
-        os.makedirs("data")
+def guardar_reporte(visitas, config):
+    o_params = config['output_params']
+    if not os.path.exists(o_params['output_dir']):
+        os.makedirs(o_params['output_dir'])
 
     tablero = generar_tablero()
-
-    # Crear DataFrame
     df = pd.DataFrame({
-        "ID": range(40),
         "Casilla": [c["nombre"] for c in tablero],
-        "Tipo": [c["tipo"] for c in tablero],
         "Visitas": visitas
     })
+    df["Probabilidad (%)"] = (df["Visitas"] / df["Visitas"].sum()) * 100
 
-    # Cálculos estadísticos
-    total_visitas = df["Visitas"].sum()
-    df["Probabilidad (%)"] = (df["Visitas"] / total_visitas) * 100
+    archivo_csv = os.path.join(o_params['output_dir'], f"{config['experiment_name']}.csv")
+    df.to_csv(archivo_csv, index=False)
 
-    # Guardar CSV
-    ruta_csv = os.path.join("data", f"resultado_{nombre_set}.csv")
-    df.to_csv(ruta_csv, index=False)
+    print(f"\n[DATOS] Reporte generado en: {archivo_csv}")
 
-    # Mostrar resultados clave
-    print("\n" + "="*40)
-    print(f" RESULTADOS: {nombre_set.upper()}")
-    print("="*40)
-    print(df.sort_values("Visitas", ascending=False).head(10).to_string(index=False))
-    print(f"\n[OK] Datos completos guardados en: {ruta_csv}")
+    if o_params.get('verbose_summary'):
+        print("\n--- TOP 10 CASILLAS ---")
+        print(df.sort_values("Visitas", ascending=False).head(10).to_string(index=False))
 
 if __name__ == "__main__":
-    # PARÁMETROS DEL USUARIO
-    TURNOS = 100_000_000  # Tus 100 millones (¡ten paciencia!)
-    SEMILLA = 2026
-    SET_CARTAS = "oficial" # Debe existir data/card_sets/oficial.json
-
     try:
-        # 1. Ejecución
-        datos_finales = ejecutar_experimento(TURNOS, SEMILLA, SET_CARTAS)
-
-        # 2. Análisis y Exportación
-        exportar_y_analizar(datos_finales, SET_CARTAS)
-
-    except FileNotFoundError as e:
-        print(f"\n[ERROR CRÍTICO] Falta un archivo de configuración: {e}")
+        cfg = cargar_configuracion()
+        res = ejecutar_simulacion(cfg)
+        guardar_reporte(res, cfg)
     except Exception as e:
-        print(f"\n[ERROR INESPERADO] {e}")
+        print(f"\n[ERROR] Hubo un problema: {e}")
