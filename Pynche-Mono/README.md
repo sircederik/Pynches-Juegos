@@ -47,7 +47,7 @@ El motor ha sido actualizado para procesar transferencias reales de capital entr
 
 ---
 
-##  Interfaz de Comandos (CLOI)
+##  Interfaz de Comandos (CLI)
 
 El archivo `main.py` permite una manipulación dinámica del experimento sin modificar archivos internos:
 
@@ -71,7 +71,7 @@ Argumentos Soportados:
 ** Reporte de Supervivencia y Datos
 Al concluir cada simulación, el framework genera un reporte dual:
 
-*Reporte de Supervivencia: Una crónica en consola que detalla quién sobrevivió, quién quebró y el balance de oro final de cada "aventurero".
+    *Reporte de Supervivencia: Una crónica en consola que detalla quién sobrevivió, quién quebró y el balance de oro final de cada "aventurero".
 
-*Dataset CSV: Un archivo detallado con la frecuencia de visitas por casilla y la probabilidad porcentual calculada, ideal para su posterior análisis en herramientas de Data Science.
+    *Dataset CSV: Un archivo detallado con la frecuencia de visitas por casilla y la probabilidad porcentual calculada, ideal para su posterior análisis en herramientas de Data Science.
 

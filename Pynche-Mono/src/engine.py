@@ -1,12 +1,12 @@
 class MonopolyEngine:
-    def __init__(self, jugadores, tablero, mazo_suerte, mazo_arca, dados, verbosity=1):
+    def __init__(self, jugadores, tablero, mazo_suerte, mazo_arca, dados, cobro_salida, verbosity=1):
         self.jugadores = jugadores
         self.tablero = tablero
         self.mazo_suerte = mazo_suerte
         self.mazo_arca = mazo_arca
         self.dados = dados
+        self.monto_salida = cobro_salida
         self.verbosity = verbosity
-
         # Mapeo de acciones del JSON a métodos internos
         self.despachador_cartas = {
             "mover_a": self._accion_mover_a,
@@ -49,11 +49,10 @@ class MonopolyEngine:
 
         # 3. Si no terminó en la cárcel por los dados, procesar la casilla de aterrizaje
         if not jugador.en_carcel:
-            self._procesar_casilla(jugador)
             if self.verbosity >= 2:
                 casilla = self.tablero[jugador.posicion]["nombre"]
                 self._log(f"[INFO] {jugador.nombre} aterrizó en {casilla}", 2)
-
+            self._procesar_casilla(jugador)
 
     def _procesar_propiedad(self, jugador, casilla):
         dueno = casilla.get("dueno")
@@ -122,7 +121,7 @@ class MonopolyEngine:
         destino = carta["destino"]
         # Si pasa por salida (0) y el destino no es la cárcel (10)
         if destino < jugador.posicion and destino != 10:
-            jugador.pagar(-200) # Cobrar Salida
+            jugador.pagar(-self.monto_salida) # Cobrar Salida
         jugador.mover_a(destino)
 
     def _accion_mover_relativo(self, jugador, carta):
@@ -136,7 +135,7 @@ class MonopolyEngine:
             nueva_pos = (pos_actual + i) % 40
             if self.tablero[nueva_pos]["tipo"] == tipo_buscado:
                 if nueva_pos < pos_actual:
-                    jugador.pagar(-200)
+                    jugador.pagar(-self.monto_salida)
                 jugador.mover_a(nueva_pos)
                 break
 

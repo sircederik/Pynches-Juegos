@@ -9,6 +9,7 @@ simulation_params:
 rules_configuration:
   set_cartas: "oficial"  # Debe existir data/card_sets/oficial.json
   dinero_inicial: 1500
+  cobro_salida: 200
 
 output_params:
   output_dir: "data/resultados"

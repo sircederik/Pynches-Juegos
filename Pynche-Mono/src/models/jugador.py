@@ -19,10 +19,10 @@ class Jugador:
         self.contador_visitas = [0] * 40 # Para generar el mapa de calor después
         self.historial_dinero = [1500]
 
-    def mover_a(self, nueva_posicion, pasar_por_salida=True):
+    def mover_a(self, nueva_posicion, pasar_por_salida=True, monto_salida=200):
         """Mueve al jugador a una casilla específica (útil para cartas y cárcel)."""
         if pasar_por_salida and nueva_posicion < self.posicion:
-            self.dinero += 200
+            self.dinero += monto_salida
 
         self.posicion = nueva_posicion
         self.contador_visitas[self.posicion] += 1

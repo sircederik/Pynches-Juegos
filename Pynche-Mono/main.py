@@ -48,6 +48,7 @@ def ejecutar_simulacion(config):
     dados = Dados(semilla=s_params['semilla'])
     tablero = generar_tablero()
     m_suerte, m_arca = cargar_paquete_de_cartas(r_params['set_cartas'], dados.rng)
+    cobro_salida = r_params.get('cobro_salida',200)
 
     # Configurar jugadores
     jugadores = [Jugador(i, f"J_{i}") for i in range(1, s_params['num_jugadores'] + 1)]
@@ -55,7 +56,7 @@ def ejecutar_simulacion(config):
         j.dinero = r_params.get('dinero_inicial', 1500)
 
     # Ejecutar Motor
-    engine = MonopolyEngine(jugadores, tablero, m_suerte, m_arca, dados, verbosity=v_level)
+    engine = MonopolyEngine(jugadores, tablero, m_suerte, m_arca, dados, cobro_salida, verbosity=v_level)
     engine.ejecutar_partida(max_turnos=s_params['turnos'])
 
     # Consolidar resultados
